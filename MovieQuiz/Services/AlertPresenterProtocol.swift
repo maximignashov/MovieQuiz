@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol AlertPresenterProtocol {
+    func show(quiz: QuizResultsViewModel?, comp: (() -> Void)?)
+}

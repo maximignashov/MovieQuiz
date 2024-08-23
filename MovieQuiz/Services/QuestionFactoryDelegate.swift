@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol QuestionFsctoryDelegate: AnyObject {
+protocol QuestionFactoryDelegate: AnyObject {
     func didReceiveNextQuestion(question: QuizQuestion?)
 }
