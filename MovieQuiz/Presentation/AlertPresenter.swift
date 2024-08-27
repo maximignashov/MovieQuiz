@@ -16,15 +16,20 @@ class AlertPresenter: AlertPresenterProtocol {
         self.delegate = delegate
     }
     
-    func show(quiz: QuizResultsViewModel?, comp: (() -> Void)?) {
+    func show() {
 
-        guard let quiz = quiz else {
-            return
-        }
-        
-        guard let comp = comp else {
-            return
-        }
+        let model = AlertModel(
+            title: "Этот раунд окончен!",
+            message: delegate?.correctAnswers == delegate?.questionsAmount ?
+            "Поздравляем, вы ответили на 10 из 10!" :
+                "Вы ответили на \(String(describing: delegate?.correctAnswers)) из 10, попробуйте ещё раз!",
+            buttonText: "Сыграть ещё раз",
+            completion: {})
+
+        let quiz = QuizResultsViewModel(
+            title: model.title,
+            text: model.message,
+            buttonText: model.buttonText)
         
         let alert = UIAlertController(
             
@@ -43,6 +48,6 @@ class AlertPresenter: AlertPresenterProtocol {
         
         alert.addAction(action)
         
-        delegate?.present(alert, animated: true, completion: comp)
+        delegate?.present(alert, animated: true, completion: model.completion)
     }
 }

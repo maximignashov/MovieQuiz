@@ -8,6 +8,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
+//        var statisticService = StatisticService(bestGame: <#T##GameResult#>, totalAccuracy: <#T##Double#>)
+        
         super.viewDidLoad()
         
         let questionFactory = QuestionFactory()
@@ -57,7 +59,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     var correctAnswers = 0
     var currentQuestionIndex = 0
-    private let questionsAmount = 10
+    let questionsAmount = 10
     private var currentQuestion: QuizQuestion?
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
@@ -100,20 +102,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             alertPresenter.setup(delegate: self)
             self.alertPresenter = alertPresenter
             
-            let model = AlertModel(
-                title: "Этот раунд окончен!",
-                message: correctAnswers == questionsAmount ?
-                "Поздравляем, вы ответили на 10 из 10!" :
-                "Вы ответили на \(correctAnswers) из 10, попробуйте ещё раз!",
-                buttonText: "Сыграть ещё раз",
-                completion: {})
-            
-            let viewModel = QuizResultsViewModel(
-                title: model.title,
-                text: model.message,
-                buttonText: model.buttonText)
-            
-            alertPresenter.show(quiz: viewModel, comp: model.completion)
+            alertPresenter.show()
             
         } else {
             currentQuestionIndex += 1
