@@ -8,7 +8,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
-//        var statisticService = StatisticService(bestGame: <#T##GameResult#>, totalAccuracy: <#T##Double#>)
         
         super.viewDidLoad()
         
@@ -17,6 +16,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         self.questionFactory = questionFactory
         
         questionFactory.requestNextQuestion()
+        
+        alertPresenter.delegate = self
     }
     
     // MARK: - QuestionFactoryDelegate
@@ -61,6 +62,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     var currentQuestionIndex = 0
     let questionsAmount = 10
     private var currentQuestion: QuizQuestion?
+    private let statisticService = StatisticService()
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         let questionStep = QuizStepViewModel(
@@ -97,19 +99,34 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private func showNextQuestionOrResults(button: UIButton) {
         
         if currentQuestionIndex == questionsAmount - 1 {
-            
-            let alertPresenter = AlertPresenter()
-            alertPresenter.setup(delegate: self)
-            self.alertPresenter = alertPresenter
-            
-            alertPresenter.show()
-            
+            statisticService.store(
+                correct: correctAnswers,
+                total: questionsAmount
+            )
+            let result = QuizResultsViewModel(
+                correctAnswers: correctAnswers,
+                questionsAmount: questionsAmount,
+                gameResult: statisticService.bestGame,
+                completion: { [weak self] in
+                    guard let self else { return }
+                    self.correctAnswers = 0
+                    self.currentQuestionIndex = 0
+                    self.questionFactory.requestNextQuestion()
+                }
+            )
+            alertPresenter.show(quiz: result)
         } else {
             currentQuestionIndex += 1
             questionFactory.requestNextQuestion()
             button.isEnabled = false
         }
         button.isEnabled = true
+    }
+}
+
+extension MovieQuizViewController: AlertPresenterDelegate {
+    func show(alertController: UIAlertController) {
+        present(alertController, animated: true)
     }
 }
 

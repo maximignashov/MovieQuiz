@@ -28,6 +28,7 @@
 		B532433A2C7AD6E300186EBB /* StatisticServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53243392C7AD6E300186EBB /* StatisticServiceProtocol.swift */; };
 		B532433C2C7AD83000186EBB /* GameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B532433B2C7AD83000186EBB /* GameResult.swift */; };
 		B532433E2C7AD91600186EBB /* StatisticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B532433D2C7AD91600186EBB /* StatisticService.swift */; };
+		B53243402C82B87A00186EBB /* AlertPresenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B532433F2C82B87A00186EBB /* AlertPresenterDelegate.swift */; };
 		B563FDAF2C1AB77B009B9C9E /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B563FDAB2C1AB77B009B9C9E /* YS Display-Bold.ttf */; };
 		B563FDB02C1AB77B009B9C9E /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B563FDAC2C1AB77B009B9C9E /* YS Display-Medium.ttf */; };
 /* End PBXBuildFile section */
@@ -56,6 +57,7 @@
 		B53243392C7AD6E300186EBB /* StatisticServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticServiceProtocol.swift; sourceTree = "<group>"; };
 		B532433B2C7AD83000186EBB /* GameResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameResult.swift; sourceTree = "<group>"; };
 		B532433D2C7AD91600186EBB /* StatisticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticService.swift; sourceTree = "<group>"; };
+		B532433F2C82B87A00186EBB /* AlertPresenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenterDelegate.swift; sourceTree = "<group>"; };
 		B563FDAB2C1AB77B009B9C9E /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
 		B563FDAC2C1AB77B009B9C9E /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Medium.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -161,6 +163,7 @@
 				B500AE4D2C78291A00CD824B /* AlertPresenterProtocol.swift */,
 				B53243392C7AD6E300186EBB /* StatisticServiceProtocol.swift */,
 				B532433D2C7AD91600186EBB /* StatisticService.swift */,
+				B532433F2C82B87A00186EBB /* AlertPresenterDelegate.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B53243402C82B87A00186EBB /* AlertPresenterDelegate.swift in Sources */,
 				AD5EE5DE284D7887003966EF /* UIColor+Extensions.swift in Sources */,
 				B500AE4C2C773BF800CD824B /* AlertPresenter.swift in Sources */,
 				B500AE4A2C773A5E00CD824B /* AlertModel.swift in Sources */,

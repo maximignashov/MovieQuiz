@@ -13,6 +13,7 @@ class StatisticService: StatisticServiceProtocol {
     private enum bestGameKeys: String {
         case correct
         case total
+        case date
     }
     
     private enum Keys: String {
@@ -22,7 +23,7 @@ class StatisticService: StatisticServiceProtocol {
     
     var gamesCount: Int {
         get {
-            storage.integer(forKey: Keys.gamesCount.rawValue)
+            storage.object(forKey: Keys.gamesCount.rawValue) as? Int ?? 1
         }
         
         set {
@@ -32,7 +33,7 @@ class StatisticService: StatisticServiceProtocol {
     
     private var correctAnswers: Int {
         get {
-            storage.integer(forKey: Keys.correct.rawValue)
+            storage.object(forKey: Keys.correct.rawValue) as? Int ?? -1
         }
         
         set {
@@ -43,15 +44,15 @@ class StatisticService: StatisticServiceProtocol {
     var bestGame: GameResult {
         get {
             let gameResult = GameResult(
-                correct: storage.integer(forKey: bestGameKeys.correct.rawValue),
-                total: storage.integer(forKey: bestGameKeys.total.rawValue),
-                date: storage.object(forKey: "bestGameKeys.date") as? Date ?? Date() )
+                correct: storage.object(forKey: bestGameKeys.correct.rawValue) as? Int ?? -1,
+                total: storage.object(forKey: bestGameKeys.total.rawValue) as? Int ?? -1,
+                date: storage.object(forKey: bestGameKeys.date.rawValue) as? Date ?? Date() )
             return gameResult
         }
         set {
             storage.set(newValue.correct, forKey: bestGameKeys.correct.rawValue)
             storage.set(newValue.total, forKey: bestGameKeys.total.rawValue)
-            storage.set(newValue.date, forKey: "bestGame.date")
+            storage.set(newValue.date, forKey: bestGameKeys.date.rawValue)
         }
     } 
     
@@ -65,21 +66,18 @@ class StatisticService: StatisticServiceProtocol {
     }
     
     func store(correct count: Int, total amount: Int) {
-        let bestCorrectCount = storage.integer(forKey: bestGameKeys.correct.rawValue)
+        self.gamesCount += 1
+        
+        let bestCorrectCount = storage.object(forKey: bestGameKeys.correct.rawValue) as? Int ?? -1
         
         if bestCorrectCount < count {
             storage.set(count, forKey: bestGameKeys.correct.rawValue)
         }
         
-        let bestTotal = storage.integer(forKey: bestGameKeys.total.rawValue)
+        let bestTotal = storage.object(forKey: bestGameKeys.total.rawValue) as? Int ?? -1
         
         if bestTotal < amount {
             storage.set(amount, forKey: bestGameKeys.total.rawValue)
         }
     }
-    
-    init(bestGame: GameResult, totalAccuracy: Double) {
-        self.bestGame = bestGame
-    }
-    
 }
