@@ -11,6 +11,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         super.viewDidLoad()
         
+        yesButton.isExclusiveTouch = true
+        noButton.isExclusiveTouch = true
+        
         let questionFactory = QuestionFactory()
         questionFactory.setup(delegate: self)
         self.questionFactory = questionFactory
@@ -18,10 +21,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         questionFactory.requestNextQuestion()
         
         alertPresenter.delegate = self
+
     }
     
     // MARK: - QuestionFactoryDelegate
-    
     func didReceiveNextQuestion(question: QuizQuestion?) {
         guard let question = question else {
             return
@@ -35,34 +38,44 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         }
     }
     
+    // MARK: - IB Outlets
+    
+    @IBOutlet weak private var yesButton: UIButton!
+    @IBOutlet weak private var noButton: UIButton!
+    
     @IBOutlet weak private var imageView: UIImageView!
     @IBOutlet weak private var textLabel: UILabel!
     @IBOutlet weak private var counterLabel: UILabel!
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        answerGived(answer: false, button: sender)
+        yesButton.isEnabled = false
+        noButton.isEnabled = true
+        answerGived(answer: false, button: sender, nextButton: yesButton)
     }
     
     @IBAction private func yesButtonOnClicked(_ sender: UIButton) {
-        answerGived(answer: true, button: sender)
+        yesButton.isEnabled = true
+        noButton.isEnabled = false
+        answerGived(answer: true, button: sender, nextButton: noButton)
     }
     
-    private func answerGived(answer: Bool, button: UIButton) {
+    // MARK: - Private Properties
+    private var correctAnswers = 0
+    private var currentQuestionIndex = 0
+    private let questionsAmount = 10
+    private var currentQuestion: QuizQuestion?
+    private let statisticService = StatisticService()
+    
+    private func answerGived(answer: Bool, button: UIButton, nextButton: UIButton) {
         if button.isEnabled {
             guard let currentQuestion = currentQuestion else {
                 return
             }
             button.isEnabled = false
             showAnswerResult(isCorrect: answer == currentQuestion.correctAnswer,
-                             button: button)
+                             button: button, nextButton: nextButton)
         }
     }
-    
-    var correctAnswers = 0
-    var currentQuestionIndex = 0
-    let questionsAmount = 10
-    private var currentQuestion: QuizQuestion?
-    private let statisticService = StatisticService()
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         let questionStep = QuizStepViewModel(
@@ -81,7 +94,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         counterLabel.text = step.questionNumber
     }
     
-    private func showAnswerResult(isCorrect: Bool, button: UIButton) {
+    private func showAnswerResult(isCorrect: Bool, button: UIButton, nextButton: UIButton) {
         if isCorrect {
             correctAnswers += 1
         }
@@ -92,11 +105,11 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             guard let self = self else { return }
-            self.showNextQuestionOrResults(button: button)
+            self.showNextQuestionOrResults(button: button, nextButton: nextButton)
         }
     }
     
-    private func showNextQuestionOrResults(button: UIButton) {
+    private func showNextQuestionOrResults(button: UIButton, nextButton: UIButton) {
         
         if currentQuestionIndex == questionsAmount - 1 {
             statisticService.store(
@@ -121,6 +134,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             button.isEnabled = false
         }
         button.isEnabled = true
+        nextButton.isEnabled = true
     }
 }
 

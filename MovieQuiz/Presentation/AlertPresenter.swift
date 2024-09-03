@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class AlertPresenter: AlertPresenterProtocol {
+final class AlertPresenter: AlertPresenterProtocol {
     
     weak var delegate: AlertPresenterDelegate?
     
@@ -47,15 +47,5 @@ class AlertPresenter: AlertPresenterProtocol {
         }
         alertVC.addAction(action)
         delegate?.show(alertController: alertVC)
-        
-        //        let action = UIAlertAction(title: alertModel.buttonText, style: .default) {
-        //            [weak self] _ in
-        //            guard let self = self else { return }
-        //
-        //            delegate?.currentQuestionIndex = 0
-        //            delegate?.correctAnswers = 0
-        //
-        //            delegate?.questionFactory.requestNextQuestion()
-        //        }
     }
 }

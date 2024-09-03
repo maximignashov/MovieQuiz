@@ -37,7 +37,7 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hk8-nD-6im" userLabel="Preview Image">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hk8-nD-6im" userLabel="Preview Image">
                                         <rect key="frame" x="0.0" y="43.666666666666686" width="390" height="585"/>
                                         <color key="backgroundColor" name="YP White (iOS)"/>
                                         <constraints>
@@ -114,7 +114,9 @@
                     <connections>
                         <outlet property="counterLabel" destination="tgS-2w-6Te" id="MEa-gm-dGI"/>
                         <outlet property="imageView" destination="Hk8-nD-6im" id="Mr4-Yc-u9y"/>
+                        <outlet property="noButton" destination="Lg8-uH-0vf" id="m5N-If-za3"/>
                         <outlet property="textLabel" destination="T7K-Qi-ab0" id="nsU-R3-0Ja"/>
+                        <outlet property="yesButton" destination="MrV-qI-2h5" id="B6Z-e8-PMT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
