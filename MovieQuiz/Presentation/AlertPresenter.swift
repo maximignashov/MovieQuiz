@@ -33,6 +33,19 @@ final class AlertPresenter: AlertPresenterProtocol {
         show(model)
     }
     
+    func showNetworkError(message: String) {
+        
+        let model = AlertModel(
+            title: "Ошибка",
+            message: message,
+            buttonText: "Попробовать ещё раз"
+        ) { [weak self] in
+            guard self != nil else { return }
+            
+        }
+        show(model)
+    }
+    
     private func show(_ alertModel: AlertModel) {
         let alertVC = UIAlertController(
             title: alertModel.title,

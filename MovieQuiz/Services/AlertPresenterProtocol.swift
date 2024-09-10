@@ -10,4 +10,5 @@ import Foundation
 protocol AlertPresenterProtocol {
     var delegate: AlertPresenterDelegate? { get set }
     func show(quiz result: QuizResultsViewModel)
+    func showNetworkError(message: String)
 }
