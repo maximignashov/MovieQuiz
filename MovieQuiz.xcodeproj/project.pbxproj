@@ -33,6 +33,7 @@
 		B56297652C8B0A80001723DC /* MostPopularMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56297642C8B0A80001723DC /* MostPopularMovies.swift */; };
 		B56297672C8B0F4A001723DC /* MoviesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56297662C8B0F4A001723DC /* MoviesLoader.swift */; };
 		B56297692C8B0FED001723DC /* MoviesLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56297682C8B0FED001723DC /* MoviesLoading.swift */; };
+		B562978B2C9140C1001723DC /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B562978A2C9140C1001723DC /* Decoder.swift */; };
 		B563FDAF2C1AB77B009B9C9E /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B563FDAB2C1AB77B009B9C9E /* YS Display-Bold.ttf */; };
 		B563FDB02C1AB77B009B9C9E /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B563FDAC2C1AB77B009B9C9E /* YS Display-Medium.ttf */; };
 /* End PBXBuildFile section */
@@ -66,6 +67,7 @@
 		B56297642C8B0A80001723DC /* MostPopularMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostPopularMovies.swift; sourceTree = "<group>"; };
 		B56297662C8B0F4A001723DC /* MoviesLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesLoader.swift; sourceTree = "<group>"; };
 		B56297682C8B0FED001723DC /* MoviesLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesLoading.swift; sourceTree = "<group>"; };
+		B562978A2C9140C1001723DC /* Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
 		B563FDAB2C1AB77B009B9C9E /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
 		B563FDAC2C1AB77B009B9C9E /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Medium.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -176,6 +178,7 @@
 				B56297622C8B04CA001723DC /* NetworkClient.swift */,
 				B56297662C8B0F4A001723DC /* MoviesLoader.swift */,
 				B56297682C8B0FED001723DC /* MoviesLoading.swift */,
+				B562978A2C9140C1001723DC /* Decoder.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 				B56297652C8B0A80001723DC /* MostPopularMovies.swift in Sources */,
 				B532433E2C7AD91600186EBB /* StatisticService.swift in Sources */,
 				B56297692C8B0FED001723DC /* MoviesLoading.swift in Sources */,
+				B562978B2C9140C1001723DC /* Decoder.swift in Sources */,
 				AD1ABAB42831907B00B3E448 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

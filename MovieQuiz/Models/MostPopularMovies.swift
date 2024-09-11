@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MostPopularMovies: Codable {
+struct MostPopularMovies: Decodable {
     let errorMessage: String
     let items: [MostPopularMovie]
 }

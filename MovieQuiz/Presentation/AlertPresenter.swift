@@ -39,10 +39,7 @@ final class AlertPresenter: AlertPresenterProtocol {
             title: "Ошибка",
             message: message,
             buttonText: "Попробовать ещё раз"
-        ) { [weak self] in
-            guard self != nil else { return }
-            
-        }
+        ) {}
         show(model)
     }
     

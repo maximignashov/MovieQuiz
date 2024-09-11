@@ -14,12 +14,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         yesButton.isExclusiveTouch = true
         noButton.isExclusiveTouch = true
         
-//        let questionFactory = QuestionFactory()
-//        questionFactory.setup(delegate: self)
-//        self.questionFactory = questionFactory
-//        
-//        questionFactory.requestNextQuestion()
-        
         imageView.layer.cornerRadius = 20
         questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
 
@@ -167,10 +161,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         hideLoadingIndicator()
         
-        self.correctAnswers = 0
-        self.currentQuestionIndex = 0
-        self.questionFactory?.requestNextQuestion()
-        
+        correctAnswers = 0
+        currentQuestionIndex = 0
+        questionFactory?.requestNextQuestion()
         alertPresenter.showNetworkError(message: message)
         
     }
