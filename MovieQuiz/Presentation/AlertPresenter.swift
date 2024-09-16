@@ -12,7 +12,7 @@ final class AlertPresenter: AlertPresenterProtocol {
     
     weak var delegate: AlertPresenterDelegate?
     
-    func show(quiz result: QuizResultsViewModel) {
+    func show(quiz result: QuizResultsViewModel, quizPresenter presenter: MovieQuizPresenter) {
 
         let statisticService = StatisticService()
         
@@ -24,9 +24,9 @@ final class AlertPresenter: AlertPresenterProtocol {
         
         let model = AlertModel(
             title: "Этот раунд окончен!",
-            message: "Ваш результат: \(result.correctAnswers)/\(result.questionsAmount)\n" +
+            message: "Ваш результат: \(result.correctAnswers)/\(presenter.questionsAmount)\n" +
             "Количество сыграных квизов: \(statisticService.gamesCount)\n" +
-            "Рекорд: \(result.gameResult.correct)/\(result.questionsAmount) (\(currentDate))\n" +
+            "Рекорд: \(result.gameResult.correct)/\(presenter.questionsAmount) (\(currentDate))\n" +
             "Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%",
             buttonText: "Сыграть ещё раз",
             completion: result.completion)
