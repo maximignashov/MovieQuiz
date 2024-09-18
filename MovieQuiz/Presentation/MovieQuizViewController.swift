@@ -1,7 +1,7 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController {
-    
+final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
+        
     public var alertPresenter: AlertPresenterProtocol = AlertPresenter()
     
     private var presenter: MovieQuizPresenter!
@@ -19,8 +19,6 @@ final class MovieQuizViewController: UIViewController {
         showLoadingIndicator()
         
         presenter = MovieQuizPresenter(viewController: self)
-        
-        alertPresenter.delegate = self
         
     }
     
@@ -62,22 +60,10 @@ final class MovieQuizViewController: UIViewController {
         counterLabel.text = step.questionNumber
     }
     
-    func showAnswerResult(isCorrect: Bool, button: UIButton, nextButton: UIButton) {
-        if isCorrect {
-            correctAnswers += 1
-        }
-        
+    func highlightImageBorder(isCorrectAnswer: Bool) {
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 8
-        imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            guard let self = self else { return }
-            self.presenter.correctAnswers = self.correctAnswers
-            self.presenter.alertPresenter = self.alertPresenter
-            self.presenter.statisticService = self.statisticService
-            self.presenter.showNextQuestionOrResults(button: button, nextButton: nextButton)
-        }
+        imageView.layer.borderColor = isCorrectAnswer ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
     }
     
     func showLoadingIndicator() {
@@ -94,7 +80,7 @@ final class MovieQuizViewController: UIViewController {
         hideLoadingIndicator()
         
         correctAnswers = 0
-        self.presenter.resetQuestionIndex()
+        self.presenter.restartGame()
         alertPresenter.showNetworkError(message: message)
         
     }
