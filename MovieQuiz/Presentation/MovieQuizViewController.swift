@@ -1,12 +1,10 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
-    
-    public var questionFactory: QuestionFactory?
+final class MovieQuizViewController: UIViewController {
     
     public var alertPresenter: AlertPresenterProtocol = AlertPresenter()
     
-    private let presenter = MovieQuizPresenter()
+    private var presenter: MovieQuizPresenter!
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -17,28 +15,13 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         noButton.isExclusiveTouch = true
         
         imageView.layer.cornerRadius = 20
-        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
-
+        
         showLoadingIndicator()
-        questionFactory?.loadData()
+        
+        presenter = MovieQuizPresenter(viewController: self)
         
         alertPresenter.delegate = self
-        presenter.viewController = self
-
-    }
-    
-    // MARK: - QuestionFactoryDelegate
-    func didReceiveNextQuestion(question: QuizQuestion?) {
-        presenter.didReceiveNextQuestion(question: question)
-    }
-    
-    func didLoadDataFromServer() {
-        hideLoadingIndicator()
-        questionFactory?.requestNextQuestion()
-    }
-
-    func didFailToLoadData(with error: Error) {
-        showNetworkError(message: error.localizedDescription)
+        
     }
     
     // MARK: - IB Outlets
@@ -91,19 +74,18 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             guard let self = self else { return }
             self.presenter.correctAnswers = self.correctAnswers
-            self.presenter.questionFactory = self.questionFactory
             self.presenter.alertPresenter = self.alertPresenter
             self.presenter.statisticService = self.statisticService
             self.presenter.showNextQuestionOrResults(button: button, nextButton: nextButton)
         }
     }
     
-    private func showLoadingIndicator() {
+    func showLoadingIndicator() {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
     
-    private func hideLoadingIndicator() {
+    func hideLoadingIndicator() {
         activityIndicator.isHidden = true
     }
     
@@ -113,7 +95,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         correctAnswers = 0
         self.presenter.resetQuestionIndex()
-        questionFactory?.requestNextQuestion()
         alertPresenter.showNetworkError(message: message)
         
     }

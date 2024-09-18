@@ -8,7 +8,19 @@
 import Foundation
 import UIKit
 
-final class MovieQuizPresenter {
+final class MovieQuizPresenter: QuestionFactoryDelegate {
+        
+    private var questionFactory: QuestionFactory?
+    private weak var viewController: MovieQuizViewController?
+    private var currentQuestionIndex: Int = 0
+    
+    init(viewController: MovieQuizViewController) {
+        self.viewController = viewController
+        
+        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
+        questionFactory?.loadData()
+        viewController.showLoadingIndicator()
+    }
     
     let questionsAmount: Int = 10
     var correctAnswers: Int = 0
@@ -19,11 +31,6 @@ final class MovieQuizPresenter {
     
     let gameResult = GameResult(correct: 0, total: 0, date: Date())
     
-    weak var viewController: MovieQuizViewController?
-    weak var questionFactory: QuestionFactory?
-        
-    private var currentQuestionIndex: Int = 0
-        
     func isLastQuestion() -> Bool {
         currentQuestionIndex == questionsAmount - 1
     }
@@ -70,6 +77,17 @@ final class MovieQuizPresenter {
     }
     
     // MARK: - QuestionFactoryDelegate
+        
+    func didLoadDataFromServer() {
+        viewController?.hideLoadingIndicator()
+        questionFactory?.requestNextQuestion()
+    }
+    
+    func didFailToLoadData(with error: Error) {
+        let message = error.localizedDescription
+        viewController?.showNetworkError(message: message)
+    }
+    
     func didReceiveNextQuestion(question: QuizQuestion?) {
         guard let question = question else {
             return
@@ -77,7 +95,6 @@ final class MovieQuizPresenter {
         
         currentQuestion = question
         let viewModel = convert(model: question)
-        
         DispatchQueue.main.async { [weak self] in
             self?.viewController?.show(quiz: viewModel)
         }
