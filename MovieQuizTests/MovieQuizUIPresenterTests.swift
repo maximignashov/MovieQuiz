@@ -1,8 +1,8 @@
 //
 //  MovieQuizUIPresenterTests.swift
-//  MovieQuizUIPresenterTests
+//  MovieQuizTests
 //
-//  Created by Максим on 18.09.2024.
+//  Created by Максим on 19.09.2024.
 //
 
 import XCTest
@@ -35,7 +35,7 @@ final class MovieQuizViewControllerMock: MovieQuizViewControllerProtocol {
     }
 }
 
-final class MovieQuizPresenterTests: XCTestCase {
+final class MovieQuizUIPresenterTests: XCTestCase {
     func testPresenterConvertModel() throws {
         let viewControllerMock = MovieQuizViewControllerMock()
         let sut = MovieQuizPresenter(viewController: viewControllerMock)

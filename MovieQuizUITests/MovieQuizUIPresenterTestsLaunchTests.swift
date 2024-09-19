@@ -1,8 +1,8 @@
 //
-//  MovieQuizUIPresenterTestsLaunchTests.swift
-//  MovieQuizUIPresenterTests
+//  MovieQuizUITestsLaunchTests.swift
+//  MovieQuizUITests
 //
-//  Created by Максим on 18.09.2024.
+//  Created by Максим on 13.09.2024.
 //
 
 import XCTest
@@ -17,7 +17,6 @@ final class MovieQuizUIPresenterTestsLaunchTests: XCTestCase {
         continueAfterFailure = false
     }
 
-    @MainActor
     func testLaunch() throws {
         let app = XCUIApplication()
         app.launch()
