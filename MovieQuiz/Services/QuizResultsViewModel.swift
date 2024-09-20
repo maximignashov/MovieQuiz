@@ -10,7 +10,6 @@ import Foundation
 struct QuizResultsViewModel {
     let correctAnswers: Int
     let questionsAmount: Int
-    let gameResult: GameResult
     
     let completion: () -> Void
 }
