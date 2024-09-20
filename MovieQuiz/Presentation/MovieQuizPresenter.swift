@@ -10,9 +10,14 @@ import UIKit
 
 final class MovieQuizPresenter: QuestionFactoryDelegate {
     
+    let questionsAmount: Int = 10
+    var correctAnswers: Int = 0
+    var currentQuestion: QuizQuestion?
+    var alertPresenter = AlertPresenter()
+    weak var viewController: MovieQuizViewControllerProtocol?
+    
     private let statisticService: StatisticServiceProtocol!
     private var questionFactory: QuestionFactory?
-    weak var viewController: MovieQuizViewControllerProtocol?
     private var currentQuestionIndex: Int = 0
     
     init(viewController: MovieQuizViewControllerProtocol) {
@@ -24,12 +29,6 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         questionFactory?.loadData()
         viewController.showLoadingIndicator()
     }
-    
-    let questionsAmount: Int = 10
-    var correctAnswers: Int = 0
-    
-    var currentQuestion: QuizQuestion?
-    var alertPresenter = AlertPresenter()
     
     func isLastQuestion() -> Bool {
         currentQuestionIndex == questionsAmount - 1
@@ -52,7 +51,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
     
     func convert(model: QuizQuestion) -> QuizStepViewModel {
-        return QuizStepViewModel(
+        QuizStepViewModel(
             image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)"
@@ -75,46 +74,13 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     
     func didAnswer(answer: Bool, button: UIButton, nextButton: UIButton) {
         
-        if button.isEnabled {
-            guard let currentQuestion = currentQuestion else {
-                return
-            }
-            button.isEnabled = false
-            proceedWithAnswer(isCorrect: answer == currentQuestion.correctAnswer,
-                             button: button, nextButton: nextButton)
-        }
-    }
-    
-    private func proceedWithAnswer(isCorrect: Bool, button: UIButton, nextButton: UIButton) {
-        didAnswer(isCorrectAnswer: isCorrect)
-
-        viewController?.highlightImageBorder(isCorrectAnswer: isCorrect)
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            guard let self = self else { return }
-            self.proceedToNextQuestionOrResults(button: button, nextButton: nextButton)
-        }
-    }
-    
-    private func proceedToNextQuestionOrResults(button: UIButton, nextButton: UIButton) {
-        if self.isLastQuestion() {
-            
-            let result = QuizResultsViewModel(
-                            correctAnswers: correctAnswers,
-                            questionsAmount: questionsAmount,
-                            completion: { [weak self] in
-                                guard let self else { return }
-                                self.restartGame()
-                            }
-                        )
-            alertPresenter.show(quiz: result, quizPresenter: self)
+        guard button.isEnabled, let currentQuestion = currentQuestion else { return }
         
-        } else {
-            self.switchToNextQuestion()
-            questionFactory?.requestNextQuestion()
-        }
-        button.isEnabled = true
-        nextButton.isEnabled = true
+        button.isEnabled = false
+        proceedWithAnswer(isCorrect: answer == currentQuestion.correctAnswer,
+                          button: button,
+                          nextButton: nextButton)
+        
     }
     
     // MARK: - QuestionFactoryDelegate
@@ -159,5 +125,37 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         ].joined(separator: "\n")
         
         return resultMessage
+    }
+    
+    private func proceedWithAnswer(isCorrect: Bool, button: UIButton, nextButton: UIButton) {
+        didAnswer(isCorrectAnswer: isCorrect)
+
+        viewController?.highlightImageBorder(isCorrectAnswer: isCorrect)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            guard let self = self else { return }
+            self.proceedToNextQuestionOrResults(button: button, nextButton: nextButton)
+        }
+    }
+    
+    private func proceedToNextQuestionOrResults(button: UIButton, nextButton: UIButton) {
+        if self.isLastQuestion() {
+            
+            let result = QuizResultsViewModel(
+                            correctAnswers: correctAnswers,
+                            questionsAmount: questionsAmount,
+                            completion: { [weak self] in
+                                guard let self else { return }
+                                self.restartGame()
+                            }
+                        )
+            alertPresenter.show(quiz: result, quizPresenter: self)
+        
+        } else {
+            self.switchToNextQuestion()
+            questionFactory?.requestNextQuestion()
+        }
+        button.isEnabled = true
+        nextButton.isEnabled = true
     }
 }

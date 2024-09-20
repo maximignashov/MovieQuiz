@@ -49,7 +49,8 @@ final class AlertPresenter: AlertPresenterProtocol {
                 alertModel.completion?()
         }
         alertVC.addAction(action)
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
             self.presenter?.viewController?.show(alertController: alertVC)
         }
 

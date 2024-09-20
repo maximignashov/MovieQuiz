@@ -48,7 +48,6 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     @IBOutlet weak private var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - Private Properties
-    private var correctAnswers = 0
     private let statisticService = StatisticService()
     
     func show(quiz step: QuizStepViewModel) {
@@ -79,8 +78,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         
         hideLoadingIndicator()
         
-        correctAnswers = 0
-        self.presenter.restartGame()
+        presenter.restartGame()
         alertPresenter.showNetworkError(message: message)
         
     }
